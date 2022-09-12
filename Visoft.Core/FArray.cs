@@ -68,6 +68,7 @@ public class FArray<T>
         Rank = dimensionLengths.Length;
     }
 
+    // TODO: Implementar este método corretamente
     public void CopyTo(T[] array, int sourceIndex, int destinationIndex, int length)
     {
         Array.Copy(_array, sourceIndex, array, destinationIndex, length);
