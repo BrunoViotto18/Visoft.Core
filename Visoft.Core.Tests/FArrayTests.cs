@@ -218,27 +218,37 @@ public class FArrayTests
         Assert.Equal(2, result);
     }
 
-    // TODO: Refatorar este teste (muito complicado)
+    // TODO: Verificar se todos os casos estão cobertos por este teste
     [Theory]
     [InlineData(100, 100, 0, 0, 100)]
-    [InlineData(100, 90, 0, 0, 90)]
-    [InlineData(100, 90, 10, 0, 90)]
-    [InlineData(100, 80, 10, 0, 70)]
-    [InlineData(50, 100, 10, 25, 40)]
+    [InlineData(50, 100, 0, 0, 50)]
+    [InlineData(50, 100, 0, 0, 25)]
+    [InlineData(50, 100, 0, 50, 50)]
+    [InlineData(50, 100, 0, 75, 25)]
+    [InlineData(50, 100, 25, 0, 25)]
+    [InlineData(50, 100, 10, 0, 30)]
+    [InlineData(100, 100, 75, 75, 25)]
+    [InlineData(100, 100, 50, 50, 25)]
     public void CopyTo_ShouldCopyItselfToAnArray_WhenArrayAndFArrayAreUniDimensionalAndCompatible
-        (int arrayLength, int fArrayLength, int startFromArrayIndex, int startFromFArrayIndex, int length)
+        (int sourceLength, int destinationLength, int sourceIndex, int destinationIndex, int length)
     {
         // Arrange
-        int[] array = new int[arrayLength];
-        FArray<int> fArray = new FArray<int>(fArrayLength);
-        for (var i = 0; i < fArrayLength; i++)
-            fArray[i] = i;
+        FArray<int> fArray = new FArray<int>(sourceLength);
+        int[] array = new int[destinationLength];
+        for (var i = 0; i < sourceLength; i++)
+            fArray[i] = 1;
+        for (var i = 0; i < destinationLength; i++)
+            array[i] = -1;
 
         // Act
-        fArray.CopyTo(array, startFromFArrayIndex, startFromArrayIndex, length);
+        fArray.CopyTo(array, sourceIndex, destinationIndex, length);
 
         // Assert
-        for (var i = startFromFArrayIndex; i < length; i++)
-            Assert.Equal(i, array[i + startFromArrayIndex]);
+        for (var i = 0; i < destinationIndex; i++)
+            Assert.Equal(-1, array[i]);
+        for (var i = destinationIndex; i < destinationIndex + length; i++)
+            Assert.Equal(1, array[i]);
+        for (var i = destinationIndex + length; i < destinationLength; i++)
+            Assert.Equal(-1, array[i]);
     }
 }
