@@ -218,17 +218,31 @@ public class FArrayTests
         Assert.Equal(2, result);
     }
 
-    // TODO: Verificar se todos os casos estão cobertos por este teste
     [Theory]
+    // Copies the whole FArray into the whole Array Array
     [InlineData(100, 100, 0, 0, 100)]
+
+    // Copies the whole FArray into parts of Array
     [InlineData(50, 100, 0, 0, 50)]
-    [InlineData(50, 100, 0, 0, 25)]
+    [InlineData(50, 100, 0, 25, 50)]
     [InlineData(50, 100, 0, 50, 50)]
-    [InlineData(50, 100, 0, 75, 25)]
-    [InlineData(50, 100, 25, 0, 25)]
-    [InlineData(50, 100, 10, 0, 30)]
-    [InlineData(100, 100, 75, 75, 25)]
-    [InlineData(100, 100, 50, 50, 25)]
+    // Copies parts of FArray into the whole Array
+    [InlineData(100, 50, 0, 0, 50)]
+    [InlineData(100, 50, 25, 0, 50)]
+    [InlineData(100, 50, 50, 0, 50)]
+
+    // Copies parts of FArray into the start of Array
+    [InlineData(100, 100, 0, 0, 50)]
+    [InlineData(100, 100, 25, 0, 50)]
+    [InlineData(100, 100, 50, 0, 50)]
+    // Copies parts of FArray into the middle of Array
+    [InlineData(100, 100, 0, 25, 50)]
+    [InlineData(100, 100, 25, 25, 50)]
+    [InlineData(100, 100, 50, 25, 50)]
+    // Copies parts of FArray into the end of Array
+    [InlineData(100, 100, 0, 50, 50)]
+    [InlineData(100, 100, 25, 50, 50)]
+    [InlineData(100, 100, 50, 50, 50)]
     public void CopyTo_ShouldCopyItselfToAnArray_WhenArrayAndFArrayAreUniDimensionalAndCompatible
         (int sourceLength, int destinationLength, int sourceIndex, int destinationIndex, int length)
     {
