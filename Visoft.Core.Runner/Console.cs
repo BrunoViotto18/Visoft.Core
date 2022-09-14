@@ -10,7 +10,13 @@ internal static class Program
 {
     static void Main()
     {
-        WriteLine(Test(4, 5));
+        int[] arrayA = new int[10];
+        int[] arrayB = new int[5];
+
+        Array.Copy(arrayA, 0, arrayB, 0, 0);
+
+        // ArgumentException
+        // ArgumentOutOfRangeException
     }
 
     public static int Test(params int[] indexes)

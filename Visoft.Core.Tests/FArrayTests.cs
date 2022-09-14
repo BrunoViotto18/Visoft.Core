@@ -265,4 +265,42 @@ public class FArrayTests
         for (var i = destinationIndex + length; i < destinationLength; i++)
             Assert.Equal(-1, array[i]);
     }
+
+    // TODO: Specify the exception in the name of the method
+    [Theory]
+    [InlineData(10, 10, -1, 0, 10)]
+    [InlineData(10, 10, 0, -1, 10)]
+    [InlineData(10, 10, 0, 0, -1)]
+    public void CopyTo_ShouldThrowArgumentOutOfRangeException_WhenParametersAreNegative
+        (int sourceLength, int destinationLength, int sourceIndex, int destinationIndex, int length)
+    {
+        // Arrange
+        FArray<int> fArray = new FArray<int>(sourceLength);
+        int[] array = new int[destinationLength];
+
+        // Act
+        void Action() => fArray.CopyTo(array, sourceIndex, destinationIndex, length);
+
+        // Assert
+        Assert.Throws<ArgumentOutOfRangeException>(Action);
+    }
+
+    [Theory]
+    [InlineData(10, 10, 0, 0, 15)]
+    [InlineData(10, 10, 0, 5, 10)]
+    [InlineData(10, 10, 15, 0, 10)]
+    [InlineData(10, 10, 0, 15, 10)]
+    public void CopyTo_ShouldThrowArgumentException_WhenFArrayDoesntFitIntoAnArray
+        (int sourceLength, int destinationLength, int sourceIndex, int destinationIndex, int length)
+    {
+        // Arrange
+        FArray<int> fArray = new FArray<int>(sourceLength);
+        int[] array = new int[destinationLength];
+
+        // Act
+        void Action() => fArray.CopyTo(array, sourceIndex, destinationIndex, length);
+
+        // Assert
+        Assert.Throws<ArgumentException>(Action);
+    }
 }
